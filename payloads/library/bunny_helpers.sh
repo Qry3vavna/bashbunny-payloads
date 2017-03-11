@@ -13,11 +13,11 @@
 ################################################################################
 leasefile="/var/lib/dhcp/dhcpd.leases"
 export TARGET_IP="$(awk '/^lease/{print $2}' $leasefile | sort -u)"
-# Calls less tools, cleaner format, safer wrapper in double quotes in case no match
+# $TARGET_IP is fetched from the DHCP lease file, the newest lease is appended to the bottom
 export TARGET_HOSTNAME="$(awk '/hostname/{print $2}' $leasefile | tail -n1 | sed 's/^[ \t]*//;s/[\"\;]//g')"
-# Less tools, grab newest entry from bottom with tail no sort needed & cleaned up sed
+# $TARGET_HOSTNAME also fetched from the lease file might change over time
 export HOST_IP="$(awk '/address/{print $2}' /etc/network/interfaces.d/usb0)"
-# Cleaned up line
+# $HOST_IP the BashBunny's IP is grabbed from the USB NIC file
 
 ################################################################################
 # Get switch position
